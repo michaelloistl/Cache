@@ -29,17 +29,17 @@ public final class Cache<T: Cachable>: HybridCache {
    - Parameter expiry: Expiration date for the cached object
    - Parameter completion: Completion closure to be called when the task is done
    */
-  public override func add(_ key: String, object: T, expiry: Expiry? = nil, completion: (() -> Void)? = nil) {
-    super.add(key, object: object, expiry: expiry, completion: completion)
-  }
-
+    public override func add<T>(_ key: String, object: T, expiry: Expiry?, completion: (() -> Void)?) where T : Cachable {
+        super.add(key, object: object, expiry: expiry, completion: completion)
+    }
+  
   /**
    Tries to retrieve the object from to the front and back cache storages.
 
    - Parameter key: Unique key to identify the object in the cache
    - Parameter completion: Completion closure returns object or nil
    */
-  public override func object(_ key: String, completion: @escaping (_ object: T?) -> Void) {
-    super.object(key, completion: completion)
-  }
+    public override func object<T>(_ key: String, completion: @escaping (T?) -> Void) where T : Cachable {
+        super.object(key, completion: completion)
+    }
 }
